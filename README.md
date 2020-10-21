@@ -1,31 +1,27 @@
-# Adonis fullstack application
+# E-SCHOLAR-DASHBOARD
 
-This is the fullstack boilerplate for AdonisJs, it comes pre-configured with.
+## Requisitos
 
-1. Bodyparser
-2. Session
-3. Authentication
-4. Web security middleware
-5. CORS
-6. Edge template engine
-7. Lucid ORM
-8. Migrations and seeds
-
-## Setup
-
-Use the adonis command to install the blueprint
+Node.js >= 8.0.0 instalado e npm >= 3.0.0
 
 ```bash
-adonis new yardstick
+node -v
+# v10.20.1
+
+npm -v
+# 6.14.4
 ```
 
-or manually clone the repo and then run `npm install`.
+### Starting
 
+Para Inicial clone o repositório :
 
-### Migrations
+`git clone https://github.com/PI-Grupo-3/api.git`
 
-Run the following command to run startup migrations.
+`cd api`
+
+Rodar `npm install || npm i` para instalar as "dependências"
 
 ```js
-adonis migration:run
+adonis serve --dev -Rodar localmente
 ```
