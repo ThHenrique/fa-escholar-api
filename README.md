@@ -1,4 +1,4 @@
-# E-SCHOLAR-DASHBOARD
+# E-SCHOLAR-API
 
 ## Requisitos
 
