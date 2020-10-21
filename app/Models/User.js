@@ -21,6 +21,21 @@ class User extends Model {
     })
   }
 
+  static get traits() {
+    return [
+      '@provider:Adonis/Acl/HasRole',
+      '@provider:Adonis/Acl/HasPermission'
+    ]
+  }
+
+  /**
+   * Oculta os campos definidos no retorno das queries no BD
+   */
+
+  static get hidden() {
+    return ['password']
+  }
+
   /**
    * A relationship on tokens is required for auth to
    * work. Since features like `refreshTokens` or

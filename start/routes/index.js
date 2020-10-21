@@ -14,6 +14,10 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
+const Route = use('Route')
+  Route.get('/', () => {
+    return { greeting: 'API E-SCHOLAR - Status: Online' }
+})
 
 //Importa as Rotass
 require('./admin')

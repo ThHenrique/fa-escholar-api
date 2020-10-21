@@ -20,7 +20,7 @@ module.exports = {
     | is over 1mb it will not be processed.
     |
     */
-    limit: '1mb',
+    limit: '100mb',
 
     /*
     |--------------------------------------------------------------------------
@@ -107,7 +107,7 @@ module.exports = {
     | Also this value is considered when `autoProcess` is set to true.
     |
     */
-    maxSize: '20mb',
+    maxSize: '100mb',
 
     /*
     |--------------------------------------------------------------------------
@@ -133,7 +133,7 @@ module.exports = {
     | is to true. Otherwise everything is processed manually.
     |
     */
-    processManually: []
+    processManually: ['/uploadPhoto']
 
     /*
     |--------------------------------------------------------------------------
