@@ -46,8 +46,21 @@ class User extends Model {
    *
    * @return {Object}
    */
+
+  static scopeHasCliente(query) {
+    return query.has('client')
+  }
+
   tokens () {
     return this.hasMany('App/Models/Token')
+  }
+
+  admin() {
+    return this.hasOne('App/Models/Admin')
+  }
+
+  client() {
+    return this.hasOne('App/Models/Client')
   }
 }
 
