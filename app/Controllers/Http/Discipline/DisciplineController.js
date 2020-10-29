@@ -48,6 +48,21 @@ class DisciplineController {
     }
   }
 
+  async index({response}) {
+    const discipline = await Discipline.query().fetch()
+    console.log('a');
+    return response.status(200).send(discipline)
+  }
+
+  async show({params, response}) {
+    const discipline = await Discipline.query()
+      .where('id', params.id)
+      .with('session')
+      .first()
+
+    return response.status(200).send(discipline)
+  }
+
   async destroy({ params, response }) {
     try {
       const discipline = await Discipline.findOrFail(params.id)
