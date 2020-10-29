@@ -22,4 +22,6 @@ const Route = use('Route')
 //Importa as Rotass
 require('./adminAuth')
 require('./admin')
+require('./discipline')
+
 

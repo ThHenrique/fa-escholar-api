@@ -1,0 +1,62 @@
+'use strict'
+
+const Database = use('Database')
+const Discipline = use('App/Models/Discipline')
+const Session = use('App/Models/Session')
+const Lesson = use('App/Models/Lesson')
+const File = use('App/Models/File')
+
+class DisciplineController {
+  async store({ request, response }) {
+    const trx = await Database.beginTransaction()
+    try {
+      const {sessions, ...data} = request.all()
+
+      const discipline = new Discipline()
+      discipline.merge(data)
+      await discipline.save(trx)
+
+      sessions.forEach(async session => {
+        const resultSession = await Session.create({
+          discipline_id: discipline.id,
+          name: session.name,
+        })
+
+        session.lessons.forEach(async lesson => {
+          const resultLesson = await Lesson.create({
+            session_id: resultSession.id,
+            name: lesson.name,
+            description: lesson.description,
+          })
+
+          lesson.files.forEach(async file => {
+            await File.create({
+              lesson_id: resultLesson.id,
+              doc_url: file.doc_url,
+            })
+          })
+        })
+      })
+
+      await trx.commit()
+
+      return response.status(200).send()
+    } catch (error) {
+      console.log(error);
+      await trx.rollback()
+      return response.status(error.status).send(error)
+    }
+  }
+
+  async destroy({ params, response }) {
+    try {
+      const discipline = await Discipline.findOrFail(params.id)
+      await discipline.delete()
+      return response.status(200).send()
+    } catch (error) {
+      return response.status(error.status).send(error)
+    }
+  }
+}
+
+module.exports = DisciplineController
