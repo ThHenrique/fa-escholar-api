@@ -48,6 +48,50 @@ class DisciplineController {
     }
   }
 
+  async update({ request, response, params }) {
+    const trx = await Database.beginTransaction()
+    try {
+      const {sessions, ...data} = request.all()
+
+      const discipline = await Discipline.find(params.id)
+
+      sessions.forEach(async session => {
+        const resultSession = await Session.create({
+          id: session.id,
+          discipline_id: discipline.id,
+          name: session.name,
+        })
+
+        session.lessons.forEach(async lesson => {
+          const resultLesson = await Lesson.create({
+            id: lesson.id,
+            session_id: resultSession.id,
+            name: lesson.name,
+            description: lesson.description,
+          })
+
+          lesson.files.forEach(async file => {
+            await File.create({
+              id: file.id,
+              lesson_id: resultLesson.id,
+              doc_url: file.doc_url,
+            })
+          })
+        })
+      })
+
+      discipline.merge(data)
+      await discipline.save(trx)
+      await trx.commit()
+
+      return response.status(200).send()
+    } catch (error) {
+      console.log(error);
+      await trx.rollback()
+      return response.status(error.status).send(error)
+    }
+  }
+
   async index({response}) {
     const discipline = await Discipline.query().fetch()
     console.log('a');

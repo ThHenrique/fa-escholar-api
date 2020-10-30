@@ -8,6 +8,7 @@ Route.group(() => {
   Route.get('index', 'DisciplineController.index').middleware(['auth', 'admin'])
   Route.get('show/:id', 'DisciplineController.show').middleware(['auth', 'admin'])
   Route.post('store', 'DisciplineController.store').middleware(['auth', 'admin'])
+  Route.put('update/:id', 'DisciplineController.update').middleware(['auth', 'admin'])
   Route.delete('delete/:id', 'DisciplineController.destroy').middleware(['auth', 'admin'])
 
 })
