@@ -94,7 +94,6 @@ class DisciplineController {
 
   async index({response}) {
     const discipline = await Discipline.query().fetch()
-    console.log('a');
     return response.status(200).send(discipline)
   }
 

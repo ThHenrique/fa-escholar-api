@@ -9,6 +9,7 @@ class DisciplineSchema extends Schema {
       table.increments()
       table.string('name', 254).notNullable()
       table.string('description').nullable()
+      table.string('image').nullable()
       table.string('objectives').nullable()
       table.string('about').nullable()
       table.decimal('price', 12, 2)
