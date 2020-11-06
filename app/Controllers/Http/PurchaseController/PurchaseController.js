@@ -9,7 +9,6 @@ const PurchaseDiscipline = use('App/Models/PurchaseDiscipline')
 class PurchaseController {
   async index({ response, auth, params }) {
     try {
-      const user = await auth.getUser()
       const client = await Client.query()
         .where('id', '=', params.id)
         .first()
@@ -98,48 +97,10 @@ class PurchaseController {
     try {
       const { status } = request.only(['status'])
 
-      const order = await Order.findOrFail(params.id)
+      const purchase = await Purchase.findOrFail(params.id)
 
-      if (status == 'Cancelled') {
-        const res = await apiFinance
-          .post(`/reversals`, {
-            orderId: order.id
-          })
-          .catch(e => {
-            console.log(e.response)
-            return e
-          })
-
-        if (res.status != 200)
-          return response.status(400).send('Falha durante estorno do cartão!')
-
-        order.merge({ status })
-        await order.save(trx)
-
-        const butcheryId = order.butchery_id
-        const clientId = order.client_id
-
-        ButcheryNotification(
-          butcheryId,
-          `Pedido atualizado: #${order.id}`,
-          'Pedido foi cancelado'
-        )
-        Ws.emit('update:order', { butcheryId, clientId, msg: order })
-      } else {
-        order.merge({ status })
-        await order.save(trx)
-
-        const butcheryId = order.butchery_id
-        const orderData = await Order.query()
-          .where('id', order.id)
-          .with('client')
-          .first()
-
-        const client = await Client.find(order.client_id)
-
-        ButcheryNewOrderNotification(butcheryId, order.id, client.name)
-        Ws.emit('new:order', { butcheryId, msg: orderData })
-      }
+      purchase.merge({ status })
+      await purchase.save(trx)
 
       await trx.commit()
       return response.status(200).send()
