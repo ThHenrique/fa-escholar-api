@@ -24,6 +24,8 @@ require('./adminAuth')
 require('./admin')
 require('./discipline')
 require('./clientAuth')
+require('./purchase')
+
 
 
 

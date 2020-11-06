@@ -7,6 +7,10 @@ class Client extends Model {
   user() {
     return this.belongsTo('App/Models/User')
   }
+
+  purchases() {
+    return this.hasMany('App/Models/Purchase')
+  }
 }
 
 module.exports = Client
