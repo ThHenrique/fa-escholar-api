@@ -37,6 +37,32 @@ class PurchaseController {
     }
   }
 
+  async getHistPurchases({ response, auth, params }) {
+    try {
+      const client = await Client.query()
+        .where('id', '=', params.id)
+        .first()
+      const purchase = await Purchase.query()
+        .where('client_id', client.id)
+        .fetch()
+
+      let disciplines = []
+
+      await Promise.all(
+        purchase.rows.map(async item => {
+          const purchaseDiscipline = await PurchaseDiscipline.query()
+            .where('purchase_id', '=', item.id)
+            .fetch()
+          disciplines.push(purchaseDiscipline)
+        })
+      )
+      return response.status(200).send(disciplines)
+    } catch (error) {
+      console.log(error)
+      return response.status(error.status).send(error)
+    }
+  }
+
   async show({ params, response }) {
     try {
       let purchase = await Purchase.query()
