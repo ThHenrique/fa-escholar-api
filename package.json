@@ -5,7 +5,8 @@
   "description": "API Escholar em Adonisjs",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "dev": "adonis serve --dev",
+    "start": "ENV_SILENT=true node server.js",
     "test": "node ace test"
   },
   "keywords": [
@@ -28,7 +29,8 @@
     "adonis-acl": "^1.1.1",
     "aws-sdk": "^2.796.0",
     "axios": "^0.19.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "pg": "^8.5.1"
   },
   "devDependencies": {},
   "autoload": {
