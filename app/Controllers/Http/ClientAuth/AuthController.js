@@ -56,6 +56,7 @@ class AuthController {
 
   async getUser({ response, auth }) {
     try {
+      console.log('get');
       const user = await auth.getUser()
       const client = await user.client().fetch()
 

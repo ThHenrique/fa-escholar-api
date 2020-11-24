@@ -17,6 +17,7 @@ const providers = [
   '@adonisjs/cors/providers/CorsProvider',
   '@adonisjs/lucid/providers/LucidProvider',
   '@adonisjs/framework/providers/ViewProvider',
+  '@adonisjs/drive/providers/DriveProvider',
   'adonis-acl/providers/AclProvider',
 ]
 

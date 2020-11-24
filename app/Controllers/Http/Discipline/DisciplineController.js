@@ -7,6 +7,66 @@ const Lesson = use('App/Models/Lesson')
 const File = use('App/Models/File')
 
 class DisciplineController {
+
+  async storeDiscipline({ request, response }) {
+    const trx = await Database.beginTransaction()
+    try {
+      const data = request.all()
+
+      const discipline = new Discipline()
+      discipline.merge(data)
+      await discipline.save(trx)
+
+      await trx.commit()
+
+      return response.status(200).send(discipline)
+    } catch (error) {
+      console.log(error);
+      await trx.rollback()
+      return response.status(error.status).send(error)
+    }
+  }
+
+  async storeSession({ request, response, params }) {
+    const trx = await Database.beginTransaction()
+    try {
+      const { lesson, ...data } = request.all()
+
+      const session = await Session.create({ ...data, discipline_id: params.id })
+
+      lesson.forEach(async lesson => {
+        const resultLesson = await Lesson.create({
+          session_id: session.id,
+          name: lesson.lessonName,
+          description: lesson.description,
+        })
+
+        await request.file('file', {}, async file => {
+          const name = `${Date.now()}-${file.clientName}`;
+
+          await profilePic.move(Helpers.tmpPath('uploads'), {
+            name,
+            overwrite: true
+          })
+
+          if (!profilePic.moved()) {
+            return profilePic.error()
+          }
+          return
+        })
+
+      })
+
+      await trx.commit()
+
+      return response.status(200).send(session)
+    } catch (error) {
+      console.log(error);
+      await trx.rollback()
+      return response.status(error.status).send(error)
+    }
+  }
+
   async store({ request, response }) {
     const trx = await Database.beginTransaction()
     try {
