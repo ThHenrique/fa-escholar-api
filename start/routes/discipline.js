@@ -8,8 +8,20 @@ Route.group(() => {
   Route.get('index', 'DisciplineController.index')
   Route.get('show/:id', 'DisciplineController.show')
   Route.post('create', 'DisciplineController.storeDiscipline').middleware(['auth', 'admin'])
-  Route.post('create/session/:id', 'DisciplineController.storeSession').middleware(['auth', 'admin'])
+  Route.post('create/session/:id', 'LessonController.createSession').middleware(['auth', 'admin'])
+  Route.post('/session/lesson/create/:id', 'LessonController.createLesson').middleware(['auth', 'admin'])
+  Route.post('/session/lesson/file/:id', 'ImageController.uploadLessonImage').middleware(['auth', 'admin'])
+
   Route.post('image/:id', 'ImageController.uploadImage').middleware(['auth', 'admin'])
+
+  Route.get('session/lesson/:id', 'LessonController.index').middleware(['auth', 'admin'])
+  Route.delete('session/delete/:disciplineId/:sessionId',
+    'LessonController.destroySession')
+      .middleware(['auth', 'admin'])
+
+  Route.delete('session/lesson/delete/:disciplineId/:sessionId/:lessonId',
+    'LessonController.destroyLesson')
+      .middleware(['auth', 'admin'])
 
 
   // Route.post('store', 'DisciplineController.store').middleware(['auth', 'admin'])
