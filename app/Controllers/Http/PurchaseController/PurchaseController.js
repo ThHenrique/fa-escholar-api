@@ -37,11 +37,11 @@ class PurchaseController {
     }
   }
 
-  async getHistPurchases({ response, auth, params }) {
+  async getHistPurchases({ response, auth }) {
     try {
-      const client = await Client.query()
-        .where('id', '=', params.id)
-        .first()
+      const user = await auth.getUser()
+      const client = await user.client().fetch()
+
       const purchase = await Purchase.query()
         .where('client_id', client.id)
         .fetch()

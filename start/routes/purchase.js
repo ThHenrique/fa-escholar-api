@@ -6,7 +6,7 @@ const Route = use('Route')
 Route.group(() => {
 
   Route.get('index/:id', 'PurchaseController.index').middleware(['auth'])
-  Route.get('getHist/:id', 'PurchaseController.getHistPurchases').middleware(['auth'])
+  Route.get('getHist', 'PurchaseController.getHistPurchases').middleware(['auth'])
   Route.get('show/:id', 'PurchaseController.show').middleware(['auth'])
   Route.post('store', 'PurchaseController.store').middleware(['auth'])
   Route.put('update/:id', 'PurchaseController.update').middleware(['auth'])

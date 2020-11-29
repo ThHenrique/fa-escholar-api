@@ -4,6 +4,8 @@ const User = use('App/Models/User')
 const Database = use('Database')
 const Client = use('App/Models/Client')
 const Role = use('Role')
+const Mail = use('Mail')
+const Env = use('Env')
 
 class AuthController {
   async signIn({ request, response, auth }) {
@@ -32,6 +34,13 @@ class AuthController {
 
       const token = await auth.withRefreshToken().attempt(email, password)
 
+      await Mail.send('emails.welcome', user.toJSON(), (message) => {
+        message
+          .to(email)
+          .from(email)
+          .subject('Welcome to yardstick')
+      })
+
       return response.status(200).send(token)
     } catch (error) {
       console.log(error);
@@ -56,7 +65,6 @@ class AuthController {
 
   async getUser({ response, auth }) {
     try {
-      console.log('get');
       const user = await auth.getUser()
       const client = await user.client().fetch()
 
@@ -69,16 +77,38 @@ class AuthController {
     }
   }
 
-  async update({ request, response, params }) {
+  async update({ request, response, auth }) {
     try {
-      const client = await Client.findOrFail(params.id)
+      const user = await auth.getUser()
+      const client = await Client.query()
+        .where('user_id', user.id)
+        .first()
       const data = request.all()
       client.merge(data)
       await client.save()
 
       return response.status(200).json({ success: 'Atualizado com sucesso' })
+    } catch (error) {
+      return response.status(error.status).send(error)
     }
-    catch (err) {
+  }
+
+  async sendMail({request, response, auth}) {
+    try {
+      const user = await auth.getUser()
+      const client = await user.client().fetch()
+
+      const data = Object.assign(client, { email: user.email })
+
+      await Mail.send('welcome_escholar', data.toJSON(), (message) => {
+        message
+          .to('henriquethiago298@gmail.com')
+          .from(`${Env.get('MAIL_USERNAME')}`)
+          .subject('Email de Boas Vindas')
+      })
+
+    } catch (error) {
+      console.log(error);
       return response.status(error.status).send(error)
     }
   }

@@ -11,6 +11,18 @@ class Client extends Model {
   purchases() {
     return this.hasMany('App/Models/Purchase')
   }
+
+  wish_list() {
+    return this.belongsToMany('App/Models/Discipline').pivotTable(
+      'client_disciplines'
+    )
+  }
+
+  shopping_cart() {
+    return this.belongsToMany('App/Models/Discipline').pivotTable(
+      'shopping_cart'
+    )
+  }
 }
 
 module.exports = Client

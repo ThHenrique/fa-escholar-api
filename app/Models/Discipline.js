@@ -7,6 +7,13 @@ class Discipline extends Model {
   session() {
     return this.hasMany('App/Models/Session')
   }
+  wish_list() {
+    return this.belongsToMany('App/Models/Client')
+  }
+
+  shopping_cart() {
+    return this.belongsToMany('App/Models/Client')
+  }
 }
 
 module.exports = Discipline
