@@ -5,12 +5,16 @@ const Route = use('Route')
 
 Route.group(() => {
 
-  Route.get('index', 'AdminController.index').middleware(['auth', 'admin'])
-  Route.get('show/:id', 'AdminController.show').middleware(['auth', 'admin'])
-  Route.put('update/:id', 'AdminController.update').middleware(['auth', 'admin'])
-  Route.delete('delete/:id', 'AdminController.destroy').middleware(['auth', 'admin'])
+  Route.get('index', 'AdminController.index')
+  Route.get('show/:id', 'AdminController.show')
+  Route.put('update/:id', 'AdminController.update')
+  Route.delete('delete/:id', 'AdminController.destroy')
+
+  Route.resource('discountCouponTypes', 'DiscountCouponTypesController').apiOnly();
+  Route.resource('discountCoupon', 'DiscountCouponController').apiOnly();
 
 })
   .prefix('admin')
   .namespace('Admin')
+  .middleware(['auth', 'admin'])
 

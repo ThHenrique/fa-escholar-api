@@ -10,6 +10,11 @@ Route.group(() => {
   Route.put('shoppingCart', 'ShoppingCartController.shopping_cart').middleware(['auth'])
   Route.get('shoppingCart/show', 'ShoppingCartController.show').middleware(['auth'])
 
+  Route.resource('couponClient', 'DiscountClientController').apiOnly();
+  Route.get('verifyDiscountCode', 'DiscountCouponController.verifyDiscountCode')
+  Route.get('verifyFirstBuy', 'DiscountCouponController.verifyFirstBuy')
+  Route.get('checkDiscountFirstBuy', 'DiscountCouponController.checkDiscountFirstBuy')
+
 })
   .prefix('client')
   .namespace('Client')

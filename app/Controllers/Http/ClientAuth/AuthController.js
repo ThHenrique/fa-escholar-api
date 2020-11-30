@@ -34,11 +34,11 @@ class AuthController {
 
       const token = await auth.withRefreshToken().attempt(email, password)
 
-      await Mail.send('emails.welcome', user.toJSON(), (message) => {
+      await Mail.send('welcome_escholar', user.toJSON(), (message) => {
         message
           .to(email)
-          .from(email)
-          .subject('Welcome to yardstick')
+          .from(`${Env.get('MAIL_USERNAME')}`)
+          .subject('Email de Boas Vindas')
       })
 
       return response.status(200).send(token)
