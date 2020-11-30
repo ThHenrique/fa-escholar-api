@@ -112,6 +112,17 @@ class AuthController {
       return response.status(error.status).send(error)
     }
   }
+
+  async index({ response, auth }) {
+    try {
+      const clients = await Client.all()
+
+      return response.status(200).send(clients)
+    } catch (error) {
+      console.log(error);
+      return response.status(error.status).send(error)
+    }
+  }
 }
 
 module.exports = AuthController

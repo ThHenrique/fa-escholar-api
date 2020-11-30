@@ -29,7 +29,7 @@ class WishListController {
 
     return response.status(200).send(client)
   } catch (error) {
-    console.log(error);
+    console.log(error)
     return response.status(error.status).send(error)
   }
 }

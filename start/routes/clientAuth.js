@@ -11,6 +11,8 @@ Route.group(() => {
   Route.post('refresh', 'AuthController.refresh').middleware(['auth', 'user'])
   Route.post('logout', 'AuthController.logout').middleware(['auth', 'user'])
   Route.post('sendMail', 'AuthController.sendMail')
+  Route.get('index', 'AuthController.index')
+
 })
   .prefix('clientAuth')
   .namespace('ClientAuth')
