@@ -101,7 +101,7 @@ class PurchaseController {
         )
       }
 
-      const total_price = purchase_price
+      const total_price = purchase_price - data.rebate
 
       purchase.merge({
         purchases_price: total_price,
